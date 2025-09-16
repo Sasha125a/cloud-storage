@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: cloud-storage
+    env: java
+    plan: free
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -jar target/cloud-storage-1.0.0.jar
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: cloud-storage-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: cloud-storage-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: cloud-storage-db
+          property: password
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+
+databases:
+  - name: cloud-storage-db
+    plan: free
+    databaseName: cloudstorage
+    user: clouduser
