@@ -1,10 +1,8 @@
 services:
   - type: web
     name: cloud-storage
-    env: java
     plan: free
-    buildCommand: mvn clean package -DskipTests
-    startCommand: java -jar target/cloud-storage-1.0.0.jar
+    dockerfilePath: Dockerfile
     envVars:
       - key: SPRING_DATASOURCE_URL
         fromDatabase:
